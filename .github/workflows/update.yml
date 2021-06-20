@@ -1,0 +1,36 @@
+name: update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: update
+    runs-on: macOS-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: 🌊 Install topic-workflow
+        run: |
+          curl -L https://github.com/$GITHUB_REPOSITORY/releases/latest/download/topic-workflow.zip --output topic-workflow.zip
+          unzip topic-workflow.zip
+          rm topic-workflow.zip
+          if [ -f .build/release/topic-workflow ]; then
+            echo "Release installed"
+          else
+            echo "No release, do a new build"
+            swift build -c release
+          fi
+      - name: 📊Markdown
+        run: |
+          echo "generate markdown file"
+          .build/release/topic-workflow --reporter "markdown" > README.md
+      - name: ⬆️ Push
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -a -m "🔄 Update"
+          ./push.sh "master" "${{ secrets.GITHUB_TOKEN }}"
