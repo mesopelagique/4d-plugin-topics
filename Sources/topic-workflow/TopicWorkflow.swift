@@ -30,6 +30,6 @@ public typealias Topic = String
 extension Topic {
     
     func repositories(github: GitHub) throws -> [Repository] {
-        return github.repositories(for: self)
+        return try github.repositories(for: self)
     }
 }

@@ -12,9 +12,23 @@ struct GitHub {
     
     let token: String
    
-    func repositories(for topic: Topic) -> [Repository] {
-        let data = query(address: "https://api.github.com/search/repositories?q=topic:\(topic)")
-        return (try? JSONDecoder().decode(Repositories.self, from: data).items) ?? [] // fail silently (could add log)
+    func repositories(for topic: Topic) throws -> [Repository] {
+        var data = query(address: "https://api.github.com/search/repositories?per_page=100&q=topic:\(topic)")
+        
+        var items = [Repository]()
+        
+        var repos = try JSONDecoder().decode(Repositories.self, from: data)
+        
+        items.append(contentsOf: repos.items)
+        var page = 0
+        while items.count < repos.total_count {
+            page += 1
+            data = query(address: "https://api.github.com/search/repositories?q=topic:\(topic)&page=\(page)")
+            repos = try JSONDecoder().decode(Repositories.self, from: data)
+            items.append(contentsOf: repos.items)
+        }
+        
+        return items
         // mock:
         /*if topic == "4d-plugin" {
             return [Repository(full_name: "test", name: "test", html_url: "http://test"),
