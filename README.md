@@ -70,3 +70,4 @@
 |[miyako/4d-plugin-zbar](https://github.com/miyako/4d-plugin-zbar) |✅ |✅ |
 |[miyako/4d-plugin-zint-v2](https://github.com/miyako/4d-plugin-zint-v2) |✅ |✅ |
 |[miyako/4d-plugin-zip](https://github.com/miyako/4d-plugin-zip) |✅ |✅ |
+
