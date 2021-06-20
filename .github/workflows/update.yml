@@ -26,7 +26,7 @@ jobs:
       - name: 📊Markdown
         run: |
           echo "generate markdown file"
-          .build/release/topic-workflow --reporter "markdown" > README.md
+          .build/release/topic-workflow --reporter "markdown" --github-api-key "${{ secrets.GITHUB_TOKEN }}" > README.md
       - name: ⬆️ Push
         run: |
           git config --global user.email "action@github.com"
