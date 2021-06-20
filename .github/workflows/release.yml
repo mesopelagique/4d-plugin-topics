@@ -20,7 +20,7 @@ jobs:
       - name: 📦 Build archive
         run: |
           REPOSITORY_NAME=$(jq --raw-output '.repository.name' $GITHUB_EVENT_PATH)
-          zip -r $REPOSITORY_NAME.zip $BUILD_DIR/release/topic-workflow
+          zip -r $REPOSITORY_NAME.zip $BUILD_DIR/topic-workflow
       - name: ⬆️ Upload to Release
         run: |
           REPOSITORY_NAME=$(jq --raw-output '.repository.name' $GITHUB_EVENT_PATH)
