@@ -14,13 +14,13 @@ struct TopicWorkflow: ParsableCommand {
     
     public func run() throws {
         let github = GitHub(token: githubApiKey)
-        let reporter = Reporters.reporter(from: reporter ?? DefaultReporter.identifier)
+        let selectedReporter = Reporters.reporter(from: self.reporter ?? DefaultReporter.identifier)
         
         let repositories: [Topic : [Repository]] = Dictionary(try topics.map {
             ($0, try $0.repositories(github: github))
         }) { key, value in return key }
         
-        let report = reporter.generateReport(repositories: repositories)
+        let report = selectedReporter.generateReport(repositories: repositories)
         print(report)
     }
 }
