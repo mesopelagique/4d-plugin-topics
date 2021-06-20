@@ -23,7 +23,7 @@ struct GitHub {
         var page = 0
         while items.count < repos.total_count {
             page += 1
-            data = query(address: "https://api.github.com/search/repositories?q=topic:\(topic)&page=\(page)")
+            data = query(address: "https://api.github.com/search/repositories?per_page=100&q=topic:\(topic)&page=\(page)")
             repos = try JSONDecoder().decode(Repositories.self, from: data)
             items.append(contentsOf: repos.items)
         }

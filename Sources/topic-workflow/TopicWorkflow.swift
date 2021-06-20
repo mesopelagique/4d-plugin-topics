@@ -1,6 +1,5 @@
 import Foundation
 import ArgumentParser
-import OctoKit
 
 var topics: [Topic] = ["4d-plugin", "4d-plugin-apple-silicon"]
 
